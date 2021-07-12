@@ -1,0 +1,6 @@
+#!/usr/bin/dh-exec
+debian/ptp4l@.service /lib/systemd/system/
+debian/phc2sys@.service /lib/systemd/system/
+debian/timemaster.service /lib/systemd/system/
+configs/default.cfg => /etc/linuxptp/ptp4l.conf
+debian/timemaster.conf /etc/linuxptp/

@@ -10,3 +10,6 @@
 /snmp4lptp
 /timemaster
 /ts2phc
+/debian/.debhelper/
+/debian/linuxptp/
+/debian/tmp/
