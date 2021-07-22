@@ -1,3 +1,11 @@
+linuxptp (3.1-3) unstable; urgency=medium
+
+  [ Jeong Arm ]
+  * Version bump for upload
+  * Automatically enable service on install
+
+ -- TSN Lab, inc. <cto@tsnlab.com>  Tue, 13 Jul 2021 13:49:53 +0900
+
 linuxptp (3.1-2) unstable; urgency=medium
 
   [ Punit Agrawal ]

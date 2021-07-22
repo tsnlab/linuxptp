@@ -1,0 +1,12 @@
+[Unit]
+Description=Synchronize system clock or PTP hardware clock (PHC)
+Documentation=man:phc2sys
+Before=time-sync.target
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/phc2sys -a -rr --step_threshold=1 --transportSpecific=1
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

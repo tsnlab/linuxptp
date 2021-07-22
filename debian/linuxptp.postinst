@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -eo pipefail
+
+#DEBHELPER#
+
+if [ "$1" = "configure" ] || [ "$1" = "abort-upgrade" ] || [ "$1" = "abort-deconfigure" ] || [ "$1" = "abort-remove" ] ; then
+	for dev in /sys/class/net/*/device; do
+		devname="$(basename "$(dirname "$dev")")"
+		echo "Check ${devname} has timestamp feature"
+		if /usr/sbin/ethtool -T "$devname" | grep hardware-transmit &>/dev/null; then
+			echo "Enable PTP4l service for ${devname}"
+			deb-systemd-helper unmask "ptp4l@${devname}.service" >/dev/null || true
+			systemctl enable --now "ptp4l@${devname}.service" >/dev/null || true
+
+			# # was-enabled defaults to true, so new installations run enable.
+			# if deb-systemd-helper --quiet was-enabled "ptp4l@${devname}.service"; then
+			# 	# Enables the unit on first installation, creates new
+			# 	# symlinks on upgrades if the unit file has changed.
+			# 	deb-systemd-helper enable "ptp4l@${devname}.service" >/dev/null || true
+			# else
+			# 	# Update the statefile to add new symlinks (if any), which need to be
+			# 	# cleaned up on purge. Also remove old symlinks.
+			# 	deb-systemd-helper update-state "ptp4l@${devname}.service" >/dev/null || true
+			# fi
+		fi
+	done
+fi
