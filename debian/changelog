@@ -1,4 +1,4 @@
-linuxptp (3.1-3) unstable; urgency=medium
+linuxptp (3.1+tsnlab) unstable; urgency=medium
 
   [ Jeong Arm ]
   * Version bump for upload
