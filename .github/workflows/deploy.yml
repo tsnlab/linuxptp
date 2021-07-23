@@ -3,11 +3,17 @@ name: Deploy
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v*'
 
 jobs:
   packaging:
     runs-on: ubuntu-latest
+    environment: deploy
+    env:
+      REPO_HOST: ${{ secrets.REPO_HOST }}
+      REPO_USER: ${{ secrets.REPO_USER }}
+      REPO_PATH: ${{ secrets.REPO_PATH }}
+      SSH_KEY: ${{ secrets.SSH_KEY }}
     steps:
       - uses: actions/checkout@master
 
@@ -15,3 +21,10 @@ jobs:
         id: build
         with:
           args: --unsigned-source --unsigned-changes
+      - name: setup deploy
+        run: .ci/setup.sh
+      - name: deploy
+        run: |
+          scp ${{ steps.build.outputs.filename }} $REPO_USER@$REPO_HOST:$REPO_PATH/tmp/
+          ssh $REPO_USER@$REPO_HOST reprepro -b $REPO_PATH includedeb unstable $REPO_PATH/tmp/${{ steps.build.outputs.filename }}
+          ssh $REPO_USER@$REPO_HOST rm $REPO_PATH/tmp/${{ steps.build.outputs.filename }}
