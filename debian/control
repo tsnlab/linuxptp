@@ -3,7 +3,7 @@ Section: utils
 Priority: optional
 Maintainer: Jeong Arm <arm@tsnlab.com>
 Uploaders: TSN Lab, inc. <cto@tsnlab.com>
-Build-Depends: debhelper-compat (= 13), dh-exec
+Build-Depends: debhelper (>= 11~), dh-exec
 Standards-Version: 4.5.1
 Homepage: https://github.com/tsnlab/linuxptp
 Vcs-Git: https://github.com/tsnlab/linuxptp.git
