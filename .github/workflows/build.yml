@@ -1,0 +1,31 @@
+name: Build
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: install build tools
+        run: sudo apt install -qqy --no-install-recommends gcc make
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: build
+        run: make
+
+  packaging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - uses: nylas/build-dpkg-buster@master
+        id: build
+        with:
+          args: --unsigned-source --unsigned-changes
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: ${{ steps.build.outputs.filename }}
+          path: ${{ steps.build.outputs.filename }}
