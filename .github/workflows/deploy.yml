@@ -25,6 +25,6 @@ jobs:
         run: .ci/setup.sh
       - name: deploy
         run: |
-          scp ${{ steps.build.outputs.filename }} $REPO_USER@$REPO_HOST:$REPO_PATH/tmp/
-          ssh $REPO_USER@$REPO_HOST reprepro -b $REPO_PATH includedeb unstable $REPO_PATH/tmp/${{ steps.build.outputs.filename }}
-          ssh $REPO_USER@$REPO_HOST rm $REPO_PATH/tmp/${{ steps.build.outputs.filename }}
+          scp ${{ steps.build.outputs.filename }} packages:$REPO_PATH/tmp/
+          ssh packages reprepro -b $REPO_PATH includedeb unstable $REPO_PATH/tmp/${{ steps.build.outputs.filename }}
+          ssh packages rm $REPO_PATH/tmp/${{ steps.build.outputs.filename }}
